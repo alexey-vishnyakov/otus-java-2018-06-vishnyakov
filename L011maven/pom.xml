@@ -15,12 +15,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.10</maven.compiler.source>
         <maven.compiler.target>1.10</maven.compiler.target>
+        <proguard.path.to.rt.jar>C:\Program Files\Java\jdk1.8.0_72\jre\lib\rt.jar</proguard.path.to.rt.jar>
     </properties>
 
     <build>
         <finalName>${project.name}</finalName>
         <plugins>
-            <plugin>
+           <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.0</version>
@@ -37,13 +38,44 @@
                 <executions>
                     <execution>
                         <id>make-assembly</id>
-                        <!-- bind to the packaging phase -->
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>2.0.14</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>proguard</goal></goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <proguardVersion>6.0.2</proguardVersion>
+                    <obfuscate>true</obfuscate>
+                    <injar>${project.name}-jar-with-dependencies.jar</injar>
+                    <outjar>${project.name}-small.jar</outjar>
+                    <options>
+                        <option>-keep public class ru.otus.Main { public static void main(java.lang.String[]); }</option>
+                        <option>-dontwarn</option>
+                    </options>
+                    <libs>
+                        <lib>${proguard.path.to.rt.jar}/</lib>
+                    </libs>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sf.proguard</groupId>
+                        <artifactId>proguard-base</artifactId>
+                        <version>6.0.2</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
