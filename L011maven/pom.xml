@@ -15,7 +15,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.10</maven.compiler.source>
         <maven.compiler.target>1.10</maven.compiler.target>
-        <proguard.path.to.rt.jar>C:\Program Files\Java\jdk1.8.0_72\jre\lib\rt.jar</proguard.path.to.rt.jar>
     </properties>
 
     <build>
@@ -65,7 +64,7 @@
                         <option>-dontwarn</option>
                     </options>
                     <libs>
-                        <lib>${proguard.path.to.rt.jar}/</lib>
+                        <lib>${java.home}/jmods/java.base.jmod</lib>
                     </libs>
                 </configuration>
                 <dependencies>
